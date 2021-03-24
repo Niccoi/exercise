@@ -18,6 +18,11 @@
 
     function myFunction(){
       var newlist = document.getElementById("todo").value;
+      if(newlist=="" || null){
+        alert("Invalid input!");
+      }
+      else{
+      var newlist = document.getElementById("todo").value;
       listArray.push(newlist);
       listItems = "";
       
@@ -28,6 +33,7 @@
       document.getElementById("list").innerHTML = listItems;
       console.log(listArray);
       document.getElementById("todo").value ="";
+    }
     }
  
     Array.prototype.deleteElem = function(val) {
