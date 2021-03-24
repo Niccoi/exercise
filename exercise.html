@@ -10,22 +10,49 @@
  
 <ul id="list">
 </ul>
+
+
   <script>
   var listArray =  new Array();
+  var listItems = "";
 
     function myFunction(){
       var newlist = document.getElementById("todo").value;
       listArray.push(newlist);
-      document.getElementById("todo").value ="";
-
+      listItems = "";
+      
       for(var i=0; i<listArray.length; i++){
-        var fromlist = listArray[i];
-           
+        var currentTodo = listArray[i];
+        listItems += "<li onclick=\"delete_todo('"+currentTodo+"')\"" + ">" +currentTodo + "</li>";
       }
-      document.getElementById("list").innerHTML += "<li>" + fromlist + "</li>";
-     console.log(fromlist);
+      document.getElementById("list").innerHTML = listItems;
+      console.log(listArray);
+      document.getElementById("todo").value ="";
     }
+ 
+    Array.prototype.deleteElem = function(val) {
+    var index = this.indexOf(val); 
+    if (index >= 0) this.splice(index, 1);
+    return this;
+};
+
+   function delete_todo(selected_todo) {
+     
+    var arr2 = listArray.deleteElem(selected_todo);
+    console.log(arr2);
+    listItems = "";
+      for(var i=0; i<listArray.length; i++){
+      
+          listItems += "<li onclick=\"delete_todo('"+listArray[i]+"')\">" +listArray[i] + "</li>"
+        }
+
+        
+      document.getElementById("list").innerHTML = listItems;
+      }
     
+
+
+
   </script>
   
  
