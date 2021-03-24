@@ -37,11 +37,14 @@ input.addEventListener("keyup", function(event) {
       
       for(var i=0; i<listArray.length; i++){
         var currentTodo = listArray[i];
-        listItems += "<li onclick=\"delete_todo('"+currentTodo+"')\"" + ">" +currentTodo + "</li>";
+        listItems += "<li id='"+currentTodo+"'>" +currentTodo + 
+          "</li>   <span style=\"font-weight:bold\" onclick=\"strike_todo('"+i+"')\">Done</span>"+
+          "   <span style=\"font-weight:bold\" onclick=\"delete_todo('"+currentTodo+"')\">Delete</span>";
       }
       document.getElementById("list").innerHTML = listItems;
       console.log(listArray);
       document.getElementById("todo").value ="";
+     
     }
     }
  
@@ -58,13 +61,25 @@ input.addEventListener("keyup", function(event) {
     listItems = "";
       for(var i=0; i<listArray.length; i++){
       
-          listItems += "<li onclick=\"delete_todo('"+listArray[i]+"')\">" +listArray[i] + "</li>"
+        listItems += "<li id='"+listArray[i]+"'>" +listArray[i] + 
+          "</li>   <span style=\"font-weight:bold\" onclick=\"strike_todo('"+i+"')\">Done</span>"+
+          "   <span style=\"font-weight:bold\" onclick=\"delete_todo('"+listArray[i]+"')\">Delete</span>";
         }
 
-        
       document.getElementById("list").innerHTML = listItems;
       }
-    
+
+      
+    function strike_todo(selected_todo){
+      var selectedItem = listArray[selected_todo];
+      var x = document.getElementById(selectedItem).style.textDecoration = "line-through";
+console.log(x);
+/*
+for(var i=0; i<listArray.length; i++){
+      
+      listItems += "<li onclick=\"delete_todo('"+listArray[i]+"')\">" +listArray[i] + "</li>"
+    }*/
+    }
 
 
 
