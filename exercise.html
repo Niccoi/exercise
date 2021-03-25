@@ -42,20 +42,7 @@ input.addEventListener("keyup", function(event) {
       listArray.push(newlist);
       listItems = "";
       
-      for(var i=0; i<listArray.length; i++){
-        var currentTodo = listArray[i];
-
-        listItems += `
-        <li class="item" id="${listArray[i]}">
-            <label onclick="strike_todo('${i}')" class="item__checkbox item__checkbox--3">
-              <input type="checkbox"><i class="fas fa-check"></i>
-            </label>
-            <span onclick="edit_todo('${listArray[i]}')">${listArray[i]}</span>
-            <button onclick="delete_todo('${listArray[i]}')" class="item__delete"><i class="fas fa-trash-alt"></i></button>
-        </li>
-        `
-      }
-      document.getElementById("list").innerHTML = listItems;
+      display_list();
       console.log(listArray);
       document.getElementById("todo").value ="";
      
@@ -73,20 +60,7 @@ input.addEventListener("keyup", function(event) {
     var arr2 = listArray.deleteElem(selected_todo);
     console.log(arr2);
     listItems = "";
-      for(var i=0; i<listArray.length; i++){
-      
-        listItems += `
-        <li class="item" id="${listArray[i]}">
-            <label onclick="strike_todo('${i}')" class="item__checkbox item__checkbox--3">
-              <input type="checkbox"><i class="fas fa-check"></i>
-            </label>
-            <span onclick="edit_todo('${listArray[i]}')">${listArray[i]}</span>
-            <button onclick="delete_todo('${listArray[i]}')" class="item__delete"><i class="fas fa-trash-alt"></i></button>
-        </li>
-        `
-      }
-
-      document.getElementById("list").innerHTML = listItems;
+      display_list();
       }
 
       
@@ -105,23 +79,25 @@ input.addEventListener("keyup", function(event) {
           listArray[index] = updateInput;
           console.log(updateInput);
 
-          for(var i=0; i<listArray.length; i++){
-          
-            listItems += `
-            <li class="item" id="${listArray[i]}">
-                <label onclick="strike_todo('${i}')" class="item__checkbox item__checkbox--3">
-                  <input type="checkbox"><i class="fas fa-check"></i>
-                </label>
-                <span onclick="edit_todo('${listArray[i]}')">${listArray[i]}</span>
-                <button onclick="delete_todo('${listArray[i]}')" class="item__delete"><i class="fas fa-trash-alt"></i></button>
-            </li>
-            `
-          }
-
-        document.getElementById("list").innerHTML = listItems;
+          display_list();
         console.log(listArray)
     }
+      function display_list(){
+        for(var i=0; i<listArray.length; i++){
+          
+          listItems += `
+          <li class="item" id="${listArray[i]}">
+              <label onclick="strike_todo('${i}')" class="item__checkbox item__checkbox--3">
+                <input type="checkbox"><i class="fas fa-check"></i>
+              </label>
+              <span onclick="edit_todo('${listArray[i]}')">${listArray[i]}</span>
+              <button onclick="delete_todo('${listArray[i]}')" class="item__delete"><i class="fas fa-trash-alt"></i></button>
+          </li>
+          `
+        }
 
+      document.getElementById("list").innerHTML = listItems;
+      }
 
   </script>
   
