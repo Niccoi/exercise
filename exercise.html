@@ -37,9 +37,10 @@ input.addEventListener("keyup", function(event) {
       
       for(var i=0; i<listArray.length; i++){
         var currentTodo = listArray[i];
-        listItems += "<li id='"+currentTodo+"'>" +currentTodo + 
+        listItems += "<li id='"+listArray[i]+"'>" +listArray[i] + 
           "</li>   <span style=\"font-weight:bold\" onclick=\"strike_todo('"+i+"')\">Done</span>"+
-          "   <span style=\"font-weight:bold\" onclick=\"delete_todo('"+currentTodo+"')\">Delete</span>";
+          "   <span style=\"font-weight:bold\" onclick=\"delete_todo('"+listArray[i]+"')\">Delete</span>"+
+          "   <span style=\"font-weight:bold\" onclick=\"edit_todo('"+listArray[i]+"')\">Edit</span>";
       }
       document.getElementById("list").innerHTML = listItems;
       console.log(listArray);
@@ -63,7 +64,8 @@ input.addEventListener("keyup", function(event) {
       
         listItems += "<li id='"+listArray[i]+"'>" +listArray[i] + 
           "</li>   <span style=\"font-weight:bold\" onclick=\"strike_todo('"+i+"')\">Done</span>"+
-          "   <span style=\"font-weight:bold\" onclick=\"delete_todo('"+listArray[i]+"')\">Delete</span>";
+          "   <span style=\"font-weight:bold\" onclick=\"delete_todo('"+listArray[i]+"')\">Delete</span>"+
+          "   <span style=\"font-weight:bold\" onclick=\"edit_todo('"+listArray[i]+"')\">Edit</span>";
         }
 
       document.getElementById("list").innerHTML = listItems;
@@ -76,7 +78,24 @@ input.addEventListener("keyup", function(event) {
 console.log(x);
 
     }
+function edit_todo(toUpdateTodo){
+  listItems = "";
+      var updateInput = prompt("Enter updated todo", "");
+      const index = listArray.indexOf(toUpdateTodo);
+      listArray[index] = updateInput;
+      console.log(updateInput);
 
+      for(var i=0; i<listArray.length; i++){
+      
+      listItems += "<li id='"+listArray[i]+"'>" +listArray[i] + 
+        "</li>   <span style=\"font-weight:bold\" onclick=\"strike_todo('"+i+"')\">Done</span>"+
+        "   <span style=\"font-weight:bold\" onclick=\"delete_todo('"+listArray[i]+"')\">Delete</span>"+
+        "   <span style=\"font-weight:bold\" onclick=\"edit_todo('"+listArray[i]+"')\">Edit</span>";
+      }
+
+    document.getElementById("list").innerHTML = listItems;
+    console.log(listArray)
+}
 
 
   </script>
