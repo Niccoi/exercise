@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html>
+
+  <head>
+      <link rel="stylesheet" href="style.css">
+      <link href="https://fonts.googleapis.com/css?family=Hind:400,500,600&amp;subset=latin-ext" rel="stylesheet">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  </head>
 <body>
 
-    
-<h2>To do list</h2> 
 
-    <input type="text" id="todo" value="">
-    <button onclick="myFunction()" id="addTodo">Add to list</button>
- 
-<ul id="list">
-</ul>
+  <main class="app">
+    <div class="add">
+      <input placeholder="+ Add todo item" type="text" class="add__input" id="todo">
+      <button onclick="myFunction()" id="addTodo">Add to List</button>
+    </div>
+
+    <ul class="list" id="list">
+      
+    </ul>
+  </main>
 
 
   <script>
@@ -37,10 +46,16 @@ input.addEventListener("keyup", function(event) {
       
       for(var i=0; i<listArray.length; i++){
         var currentTodo = listArray[i];
-        listItems += "<li id='"+listArray[i]+"'>" +listArray[i] + 
-          "</li>   <span style=\"font-weight:bold\" onclick=\"strike_todo('"+i+"')\">Done</span>"+
-          "   <span style=\"font-weight:bold\" onclick=\"delete_todo('"+listArray[i]+"')\">Delete</span>"+
-          "   <span style=\"font-weight:bold\" onclick=\"edit_todo('"+listArray[i]+"')\">Edit</span>";
+
+        listItems += `
+        <li class="item" id="${listArray[i]}">
+            <label onclick="strike_todo('${i}')" class="item__checkbox item__checkbox--3">
+              <input type="checkbox"><i class="fas fa-check"></i>
+            </label>
+            <span onclick="edit_todo('${listArray[i]}')">${listArray[i]}</span>
+            <button onclick="delete_todo('${listArray[i]}')" class="item__delete"><i class="fas fa-trash-alt"></i></button>
+        </li>
+        `
       }
       document.getElementById("list").innerHTML = listItems;
       console.log(listArray);
@@ -62,11 +77,16 @@ input.addEventListener("keyup", function(event) {
     listItems = "";
       for(var i=0; i<listArray.length; i++){
       
-        listItems += "<li id='"+listArray[i]+"'>" +listArray[i] + 
-          "</li>   <span style=\"font-weight:bold\" onclick=\"strike_todo('"+i+"')\">Done</span>"+
-          "   <span style=\"font-weight:bold\" onclick=\"delete_todo('"+listArray[i]+"')\">Delete</span>"+
-          "   <span style=\"font-weight:bold\" onclick=\"edit_todo('"+listArray[i]+"')\">Edit</span>";
-        }
+        listItems += `
+        <li class="item" id="${listArray[i]}">
+            <label onclick="strike_todo('${i}')" class="item__checkbox item__checkbox--3">
+              <input type="checkbox"><i class="fas fa-check"></i>
+            </label>
+            <span onclick="edit_todo('${listArray[i]}')">${listArray[i]}</span>
+            <button onclick="delete_todo('${listArray[i]}')" class="item__delete"><i class="fas fa-trash-alt"></i></button>
+        </li>
+        `
+      }
 
       document.getElementById("list").innerHTML = listItems;
       }
@@ -75,27 +95,34 @@ input.addEventListener("keyup", function(event) {
     function strike_todo(selected_todo){
       var selectedItem = listArray[selected_todo];
       var x = document.getElementById(selectedItem).style.textDecoration = "line-through";
-console.log(x);
+      console.log(x);
 
     }
-function edit_todo(toUpdateTodo){
-  listItems = "";
-      var updateInput = prompt("Enter updated todo", "");
-      const index = listArray.indexOf(toUpdateTodo);
-      listArray[index] = updateInput;
-      console.log(updateInput);
 
-      for(var i=0; i<listArray.length; i++){
-      
-      listItems += "<li id='"+listArray[i]+"'>" +listArray[i] + 
-        "</li>   <span style=\"font-weight:bold\" onclick=\"strike_todo('"+i+"')\">Done</span>"+
-        "   <span style=\"font-weight:bold\" onclick=\"delete_todo('"+listArray[i]+"')\">Delete</span>"+
-        "   <span style=\"font-weight:bold\" onclick=\"edit_todo('"+listArray[i]+"')\">Edit</span>";
-      }
 
-    document.getElementById("list").innerHTML = listItems;
-    console.log(listArray)
-}
+    function edit_todo(toUpdateTodo){
+      listItems = "";
+          var updateInput = prompt("Enter updated todo", "");
+          const index = listArray.indexOf(toUpdateTodo);
+          listArray[index] = updateInput;
+          console.log(updateInput);
+
+          for(var i=0; i<listArray.length; i++){
+          
+            listItems += `
+            <li class="item" id="${listArray[i]}">
+                <label onclick="strike_todo('${i}')" class="item__checkbox item__checkbox--3">
+                  <input type="checkbox"><i class="fas fa-check"></i>
+                </label>
+                <span onclick="edit_todo('${listArray[i]}')">${listArray[i]}</span>
+                <button onclick="delete_todo('${listArray[i]}')" class="item__delete"><i class="fas fa-trash-alt"></i></button>
+            </li>
+            `
+          }
+
+        document.getElementById("list").innerHTML = listItems;
+        console.log(listArray)
+    }
 
 
   </script>
