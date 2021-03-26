@@ -1,25 +1,4 @@
-<!DOCTYPE html>
-<html>
 
-  <head>
-      <link rel="stylesheet" href="style.css">
-      <link href="https://fonts.googleapis.com/css?family=Hind:400,500,600&amp;subset=latin-ext" rel="stylesheet">
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-  </head>
-<body>
-
-
-  <main class="app">
-    <div class="add">
-      <input placeholder="+ Add todo item" type="text" class="add__input" id="todo">
-      <button style="display: none;" onclick="myFunction()" id="addTodo">Add to List</button>
-    </div>
-
-    <ul class="list" id="list"></ul>
-  </main>
-
-
-  <script>
   var listArray =  new Array();
   var i = 1;
   var x = "";
@@ -139,10 +118,3 @@ input.addEventListener("keyup", function(event) {
 
       document.getElementById("list").innerHTML = listItems;*/
       }
-
-  </script>
-  
- 
-
-</body>
-</html>
