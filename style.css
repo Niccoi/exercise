@@ -2,7 +2,12 @@
   font-family: "Hind", sans-serif;
   box-sizing: border-box;
 }
-
+#list li.item span {
+  font-weight: 100;
+  font-size: 24px;
+flex-grow: 1;
+  color: #595959;
+}
 ::selection {
   background: #00b9a0;
 }
