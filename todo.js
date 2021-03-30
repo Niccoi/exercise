@@ -1,5 +1,6 @@
 todoItems = {todoList: []}
-counter = 0
+
+counter = 0;
 /*function baseTodo(name) {
   return {
     name: name,
@@ -19,23 +20,24 @@ var models = {
 		var range = document.createRange();
 		range.selectNodeContents(document.getElementById("list"));
 		range.deleteContents();
-	},
 
-	render: function() {
-		
-		this.clearList();	
-		
-		if (todoItems.todoList.length != 0) {
+	},
+  // all, filtered
+	render: function(items) {
+   
+    console.log(items)
+    this.clearList();	
 
 			list = document.getElementById("list")
-
-			for (var i = todoItems.todoList.length - 1; i >= 0; i--) {
+      
+       
+			for ( i = items.length - 1; i >= 0; i--) {
 
 				item = document.createElement('li');
 				span = document.createElement('span');
-                checkBoxLabel = document.createElement('label');
+        checkBoxLabel = document.createElement('label');
 				checkBox = document.createElement('input');
-                checkBoxIcon = document.createElement('i')
+        checkBoxIcon = document.createElement('i')
 
 				dltButton = document.createElement('button');
 				dltIcon = document.createElement('i');
@@ -48,24 +50,21 @@ var models = {
                 // Add our icons
 				checkBoxLabel.setAttribute("class", "item__checkbox item__checkbox--3")
 				checkBox.setAttribute("type", "checkbox")
-                checkBox.setAttribute("data-id", i)
-                checkBoxIcon.setAttribute("data-id", i);
-                checkBoxIcon.setAttribute("class", "fas fa-check");
+        checkBox.setAttribute("data-id", i)
+        checkBoxIcon.setAttribute("data-id", i);
+        checkBoxIcon.setAttribute("class", "fas fa-check");
 
 				dltIcon.setAttribute("class", "fas fa-trash-alt")
 				dltIcon.setAttribute("data-id", i)
 				span.setAttribute("data-id", i)
                
-				
-				span.textContent = todoItems.todoList[i].text
-				
-				// Put a line through any items we've 'ticked' off
-				if (todoItems.todoList[i].completed) {
+				console.log(items[i].text)
+				span.textContent = items[i].text
+			
+				//Put a line through any items we've 'ticked' off
+				if (items[i].completed == true ) {
 					span.setAttribute("style", "text-decoration: line-through; color: #bbb")
-				}
-
-
-				
+				} 
 
 				// Add our onclick functions for complete/delete actions
 				dltIcon.onclick = function(e){
@@ -84,8 +83,8 @@ var models = {
 				//span.setAttribute("onclick","controller.editItem('" + i + "')")
 
 				// Append all our elements and add to DOM
-                
-                
+
+
                 checkBox.appendChild(checkBoxIcon);
                 checkBoxLabel.appendChild(checkBox);
                 dltButton.appendChild(dltIcon);
@@ -94,13 +93,11 @@ var models = {
               // item.appendChild(checkBoxIcon);
                 item.appendChild(span);
                 item.appendChild(dltButton);
-                list.appendChild(item);
+                list.appendChild(item); 
+			}
 
-			
-                 
         
-			}		
-		} 
+  
 	},
   checkItem: function(item){
     alreadyListed = 0;
@@ -119,31 +116,72 @@ var models = {
     todoItems.todoList.push(listItem)
     
     document.getElementById("add-item").value = ""
-    todoview.render() 
+    todoview.render(todoItems.todoList) 
   }  
   },
 
 	addItem: function(e) {
 		if ((e.code == "Enter") || (e.code == "NumpadEnter")) {
-      item = document.getElementById("add-item").value
-  
-			if (item != "") {     
-              controller.addItem(item);
-          return false;	
-            
-			}
-     
+
+      counter++;
+      item = document.getElementById("add-item").value   
+      controller.addItem(item);
+    
 
       }
 	     
 	},
+showListRadioTag: function(){
+  listStatus = document.getElementById("itemListStatus")
+      
+    listAllButton = document.createElement('input')
+    listAllButton.setAttribute("type","radio")
+    listAllButton.setAttribute("checked","checked")
+    listAllButton.setAttribute("data-id","All")
+    listAllButton.setAttribute("name","statusLable")
+    listAll = document.createElement('label')
+    listAll.textContent = "All"
+    
+    listCompletedButton = document.createElement('input')
+    listCompletedButton.setAttribute("type","radio")
+    listCompletedButton.setAttribute("data-id","Completed")
+    listCompletedButton.setAttribute("name","statusLable")
+    listCompleted = document.createElement('label')
+    listCompleted.textContent = "Completed"
 
+    listPendingButton = document.createElement('input')
+    listPendingButton.setAttribute("type","radio")
+    listPendingButton.setAttribute("data-id","Pending")
+    listPendingButton.setAttribute("name","statusLable")
+    listPending = document.createElement('label')
+    listPending.textContent = "Pending"
+
+    listStatus.appendChild(listAllButton)
+    listStatus.appendChild(listAll)
+    listStatus.appendChild(listCompletedButton)
+    listStatus.appendChild(listCompleted)
+    listStatus.appendChild(listPendingButton)
+    listStatus.appendChild(listPending)
+    
+
+listAllButton.onclick = function(e){
+  showListOptions.showAll();
+}
+listCompletedButton.onclick = function(e){
+  showListOptions.showCompleted();
+}
+listPendingButton.onclick = function(e){
+  showListOptions.showPending();
+} 
+},
 
 }
 
 controller = {
 	init: function() {
+    todoview.showListRadioTag();
 		todoview.render()
+    
 	},
 	
 	addItem: function(item) {
@@ -152,12 +190,12 @@ controller = {
       todoview.checkItem(item)
     }
     else{
-
+     
       listItem = { text: item, completed: false }
       todoItems.todoList.push(listItem)
-      
+   
       document.getElementById("add-item").value = ""
-      todoview.render()   
+      todoview.render(todoItems.todoList) 
       
      }
 	
@@ -167,15 +205,17 @@ controller = {
 	completeItem: function(item_index) {
 		
 		todoItems.todoList[item_index].completed = !todoItems.todoList[item_index].completed
-		todoview.render()
+    
+		todoview.render(todoItems.todoList)
 	},
 
 	deleteItem: function(item_index) {
+   
 		todoItems.todoList.splice(item_index, 1)
 		todoview.render()
 	},
 	editItem: function(item_index){
-		if(todoItems.todoList[item_index].completed !== true){
+		if(todoItems.todoList[item_index].completed == true){
 			var updatedTodo = prompt("Update todo");
 			todoItems.todoList[item_index].text = updatedTodo;
 			todoview.render();
@@ -184,7 +224,32 @@ controller = {
 	}
 }
 
-
+showListOptions = {
+  showAll: function(){
+    todoview.render(todoItems.todoList);
+  },
+  showCompleted: function(){
+    completeTodo = []
+    for (let i = 0; i < todoItems.todoList.length; i++) {
+      if (todoItems.todoList[i].completed) {
+        
+          completeTodo.push(todoItems.todoList[i])
+      }
+  }
+  todoview.render(completeTodo)
+  },
+  showPending: function(){
+    pendingTodo = [];
+    for (let i = 0; i < todoItems.todoList.length; i++) {
+      if (!todoItems.todoList[i].completed) {
+        
+          pendingTodo.push(todoItems.todoList[i])
+          
+      }
+  }
+    todoview.render(pendingTodo)
+  },
+}
 controller.init()
 
 /*
