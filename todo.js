@@ -41,7 +41,7 @@ counter = 0;
 
 				dltIcon.attr("class", "fas fa-trash-alt")
 				dltIcon.attr("id", newId)
-				span.attr("data-id", newId)
+				span.attr("id", newId)
         
         
         span.text(newId)
@@ -270,12 +270,20 @@ controller = {
    }
 	  todoview.render()
 	},
-	editItem: function(item_index){
-		if(todoItems.todoList[item_index].completed == false){
-			var updatedTodo = prompt("Update todo");
-			todoItems.todoList[item_index].text = updatedTodo;
-			todoview.render(todoItems.todoList);
-		}
+	editItem: function(item){
+    var x=0;
+    var index;
+    console.log(item)
+		while(x<todoList.length){
+      for(i=0; i<todoList[x].task.length; i++){
+        if(todoList[x].task[i].text == item && todoList[x].task[i].completed == false){
+          var updatedTodo = prompt("Update list");
+		  	  todoList[x].task[i].text = updatedTodo;
+			    todoview.render();
+        }
+      }
+    x++;}
+
 		
 	}
 }
