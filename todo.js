@@ -35,12 +35,12 @@ counter = 0;
 
 				checkBoxLabel.attr("class", "item__checkbox item__checkbox--3")
 				checkBox.attr("type", "checkbox")
-        checkBox.attr("data-id", newId)
-        checkBoxIcon.attr("data-id", newId);
+        checkBox.attr("id", newId)
+        checkBoxIcon.attr("id", newId);
         checkBoxIcon.attr("class", "fas fa-check");
 
 				dltIcon.attr("class", "fas fa-trash-alt")
-				dltIcon.attr("data-id", newId)
+				dltIcon.attr("id", newId)
 				span.attr("data-id", newId)
         
         
@@ -240,10 +240,19 @@ controller = {
 	
 	},
 	
-	completeItem: function(item_index) {
+	completeItem: function(item) {
+    var x=0;
+    var index
+    console.log(item)
+		while(x<todoList.length){
+      for(i=0; i<todoList[x].task.length; i++){
+        if(todoList[x].task[i].text == item){
+          todoList[x].task[i].completed = !todoList[x].task[i].completed;
+        }
+      }
+      x++;
+    }
 		
-		todoItems.todoList[item_index].completed = !todoItems.todoList[item_index].completed
-    
 		todoview.render()
 	},
 
