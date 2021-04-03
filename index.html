@@ -8,19 +8,17 @@
   </head>
 <body>
 
-
-  <main class="app">
+  
+ 
     <div class="add">
-      <input placeholder="+ Add todo item" type="text" class="add__input" id="add-item" onkeypress="todoview.addItem(event)">
-    
-      <button style="display: none;" onclick="myFunction()"  id="addTodo">Add to List</button>
-    </div>
-    <div id="itemListStatus"></div>
+      <input placeholder="+ Add New Todo" type="text" class="add__input" id="add-item" onkeypress="column.addNewColumn(event)">
+    </div><br>
+  
 
-    <ul class="list" id="list"></ul>
-  </main>
-
-
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
   <script src ="todo.js">
 
   </script>

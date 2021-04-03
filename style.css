@@ -2,11 +2,12 @@
   font-family: "Hind", sans-serif;
   box-sizing: border-box;
 }
-#list li.item span {
+.item {
   font-weight: 100;
   font-size: 24px;
 flex-grow: 1;
   color: #595959;
+  justify-content: left;
 }
 ::selection {
   background: #00b9a0;
@@ -39,16 +40,15 @@ body {
 .app {
   background: #ffffff;
   width: 500px;
-  margin: 20vh 15px 20vh 15px;
   padding: 45px 35px;
   display: flex;
   flex-direction: column;
-  box-shadow: 10px 10px 14px 1px rgba(0, 0, 0, 0.2);
+  
   border-radius: 8px;
 }
 @media (max-width: 530px) {
   .app {
-    max-width: 500px;
+    max-width: 50px;
   }
 }
 
@@ -161,7 +161,7 @@ body {
   font-weight: 500;
   font-size: 16px;
   display: flex;
-  align-items: center;
+  
   position: relative;
 }
 .item:last-child {

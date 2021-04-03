@@ -1,103 +1,86 @@
-todoItems = {todoList: []}
-
+todoList = [];
+view = $(".add");
+columnCounter = 0;
 counter = 0;
-/*function baseTodo(name) {
-  return {
-    name: name,
-    items: []
-  }
-}
-// Array
-// Object
-// Manipulate object//array
-var models = {
-  todos: [baseTodo('Todo')]
-} */
 
  todoview = {
 
-	clearList: function() {
-		var range = document.createRange();
-		range.selectNodeContents(document.getElementById("list"));
-		range.deleteContents();
-
-	},
-  // all, filtered
-	render: function(items) {
-   
-    console.log(items)
-    this.clearList();	
-
-			list = document.getElementById("list")
+	render: function() {
+   	
+    console.log(todoList)
+	
+    var x = 0;
+    while(x < todoList.length){
       
-       
-			for ( i = items.length - 1; i >= 0; i--) {
+       var name = todoList[x].name;
+       var list = $("#"+name);
+      list.empty();
+			for ( i = 0; i<todoList[x].task.length; i++) {
 
-				item = document.createElement('li');
-				span = document.createElement('span');
-        checkBoxLabel = document.createElement('label');
-				checkBox = document.createElement('input');
-        checkBoxIcon = document.createElement('i')
+				item = $('<li>');
+				span = $('<span>');
+        checkBoxLabel = $('<label>');
+				checkBox = $('<input>');
+        checkBoxIcon = $('<i>')
 
-				dltButton = document.createElement('button');
-				dltIcon = document.createElement('i');
+				dltButton = $('<button>');
+				dltIcon = $('<i>');
 				
-				item.className = "item"
-				span.className = "item-text"
-				checkBox.className = "item-complete"
-				dltButton.className = "item-delete"
+				item.attr("class", "item");
+				span.attr("class", "item-text");
+				checkBox.attr("class", "item-complete");
+				dltButton.attr("class", "item-delete");
 
-                // Add our icons
-				checkBoxLabel.setAttribute("class", "item__checkbox item__checkbox--3")
-				checkBox.setAttribute("type", "checkbox")
-        checkBox.setAttribute("data-id", i)
-        checkBoxIcon.setAttribute("data-id", i);
-        checkBoxIcon.setAttribute("class", "fas fa-check");
+        newId = todoList[x].task[i].text;
 
-				dltIcon.setAttribute("class", "fas fa-trash-alt")
-				dltIcon.setAttribute("data-id", i)
-				span.setAttribute("data-id", i)
-               
-				console.log(items[i].text)
-				span.textContent = items[i].text
-			
+				checkBoxLabel.attr("class", "item__checkbox item__checkbox--3")
+				checkBox.attr("type", "checkbox")
+        checkBox.attr("data-id", newId)
+        checkBoxIcon.attr("data-id", newId);
+        checkBoxIcon.attr("class", "fas fa-check");
+
+				dltIcon.attr("class", "fas fa-trash-alt")
+				dltIcon.attr("data-id", newId)
+				span.attr("data-id", newId)
+        
+        
+        span.text(newId)
 				//Put a line through any items we've 'ticked' off
-				if (items[i].completed == true ) {
-					span.setAttribute("style", "text-decoration: line-through; color: #bbb")
+				if (todoList[x].task[i].completed == true ) {
+					span.css("text-decoration", "line-through").css("color", "#bbb");
 				} 
 
 				// Add our onclick functions for complete/delete actions
-				dltIcon.onclick = function(e){
-					var id = e.target.getAttribute("data-id")
+				dltIcon.on("click", function(e){
+					var id = e.target.getAttribute("id")
 					controller.deleteItem(id)
-				} 
+				} );
 
-				checkBox.onclick = function(e){
-					var id = e.target.getAttribute("data-id")
+				checkBox.on("click", function(e){
+					var id = e.target.getAttribute("id")
 					controller.completeItem(id)
-				}
-				span.onclick = function(e){
-					var id = e.target.getAttribute("data-id")
+				});
+				span.on("click", function(e){
+					var id = e.target.getAttribute("id")
 					controller.editItem(id)
-				}
-				//span.setAttribute("onclick","controller.editItem('" + i + "')")
+				});
 
 				// Append all our elements and add to DOM
 
 
-                checkBox.appendChild(checkBoxIcon);
-                checkBoxLabel.appendChild(checkBox);
-                dltButton.appendChild(dltIcon);
+                checkBox.append(checkBoxIcon);
+                checkBoxLabel.append(checkBox);
+                dltButton.append(dltIcon);
 
-                item.appendChild(checkBoxLabel);
+                item.append(checkBoxLabel);
               // item.appendChild(checkBoxIcon);
-                item.appendChild(span);
-                item.appendChild(dltButton);
-                list.appendChild(item); 
+                item.append(span);
+                item.append(dltButton);
+                list.append(item);  
 			}
 
-        
-  
+        x++;
+    }
 	},
   checkItem: function(item){
     alreadyListed = 0;
@@ -108,14 +91,14 @@ var models = {
     }
     if(alreadyListed == 1){
       alert("Value already listed")
-    document.getElementById("add-item").value = ""
+      $("#add-item").val("");
     alreadyListed = 0;
     }
     else{
     listItem = { text: item, completed: false }
     todoItems.todoList.push(listItem)
     
-    document.getElementById("add-item").value = ""
+    $("#add-item").val("");
     todoview.render(todoItems.todoList) 
   }  
   },
@@ -124,13 +107,12 @@ var models = {
 		if ((e.code == "Enter") || (e.code == "NumpadEnter")) {
 
       counter++;
-      item = document.getElementById("add-item").value   
+      item = $("#add-item").val();
       controller.addItem(item);
-    
-
       }
 	     
 	},
+  
 showListRadioTag: function(){
   listStatus = document.getElementById("itemListStatus")
       
@@ -173,40 +155,96 @@ listCompletedButton.onclick = function(e){
 listPendingButton.onclick = function(e){
   showListOptions.showPending();
 } 
-},
+}, 
 
+}
+column = {
+  addNewColumn: function(e){
+    if ((e.code == "Enter") || (e.code == "NumpadEnter")) {
+      
+      newColumnName = $("#add-item").val();
+      $("#add-item").val("");
+    column.addObejctColumn(newColumnName);
+    }
+      
+  },
+  addObejctColumn: function(newObject){
+    alreadyListed = 0;
+
+     for(i=0;i<todoList.length; i++){
+        if(todoList[i].name == newObject){
+          alreadyListed = 1;
+        }
+   }
+  if(alreadyListed==1){
+    alert("Todo name is already listed!")
+  }
+  else{
+    newlist = {
+      name: newObject,
+      task: []
+      }
+    todoList.push(newlist);
+      column.renderColumn(newObject);
+    }
+  },
+  renderColumn: function(newColumnName){
+    wrapper = $("<div>");
+    wrapper.attr("class","app");
+  //  wrapper.attr("id",newColumnName);
+    columnName = $("<p>");
+    columnAddbutton =  $("<button>");
+    columnAddbutton.text("+ Add new list to " +newColumnName);
+    columnAddbutton.attr("id",columnCounter);
+    columnName.text(newColumnName);
+    columnList = $("<ul>");
+    columnList.attr("id",newColumnName);
+    
+    view.append(columnName);
+    wrapper.append(columnAddbutton);
+    wrapper.append(columnList);
+    view.append(wrapper);
+    columnCounter++;
+
+    columnAddbutton.on("click", function(e){
+      newId = e.target.getAttribute("id");
+      task = prompt("Enter new task");
+      controller.addItem(newId,task);
+      
+    })
+  }
 }
 
 controller = {
 	init: function() {
-    todoview.showListRadioTag();
+    //todoview.showListRadioTag();
 		todoview.render()
     
 	},
 	
-	addItem: function(item) {
-   
-    if(todoItems.todoList.length>0){
-      todoview.checkItem(item)
+	addItem: function(id,newtask) {
+    var newId = id;
+    
+   /*
+    if(todoList.length>0){
+      todoview.checkItem(id, task)
     }
-    else{
+    else{ */
      
-      listItem = { text: item, completed: false }
-      todoItems.todoList.push(listItem)
-   
-      document.getElementById("add-item").value = ""
-      todoview.render(todoItems.todoList) 
-      
-     }
+      listItem = { text: newtask, completed: false }
+      todoList[newId].task.push(listItem); 
+      todoview.render();
+    
+      $("#add-item").val("");
+  //   }
 	
-   
 	},
 	
 	completeItem: function(item_index) {
 		
 		todoItems.todoList[item_index].completed = !todoItems.todoList[item_index].completed
     
-		todoview.render(todoItems.todoList)
+		todoview.render()
 	},
 
 	deleteItem: function(item_index) {
@@ -215,10 +253,10 @@ controller = {
 		todoview.render()
 	},
 	editItem: function(item_index){
-		if(todoItems.todoList[item_index].completed == true){
+		if(todoItems.todoList[item_index].completed == false){
 			var updatedTodo = prompt("Update todo");
 			todoItems.todoList[item_index].text = updatedTodo;
-			todoview.render();
+			todoview.render(todoItems.todoList);
 		}
 		
 	}
@@ -251,126 +289,3 @@ showListOptions = {
   },
 }
 controller.init()
-
-/*
-  var listArray =  new Array();
-  var i = 1;
-  var x = "";
-  var input = document.getElementById("todo");
-
-input.addEventListener("keyup", function(event) {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-        document.getElementById("addTodo").click();
-    }
-});
-
-    function myFunction(){
-       x = "add";
-      var newlist = document.getElementById("todo").value;
-      if(newlist=="" || null){
-        alert("Invalid input!");
-      }
-      else{
-      var newlist = document.getElementById("todo").value;
-      listArray.push(newlist);
-      
-      display_list(newlist);
-    
-      document.getElementById("todo").value ="";
-     
-    }
-    }
- 
-    Array.prototype.deleteElem = function(val) {
-    var index = this.indexOf(val); 
-    if (index >= 0) this.splice(index, 1);
-    return this;
-};
-
-   function delete_todo(selected_todo) {
-     x = "delete";
-  
-    var arr2 = listArray.deleteElem(selected_todo);
-      display_list(selected_todo);
-      }
-
-      
-    function strike_todo(selected_todo){
-   
-      var selectedItem = listArray.indexOf(selected_todo);
-      var toStrikeList = listArray[selectedItem];
-      x = "strike";
-      //var x = document.getElementById(selectedItem).style.textDecoration = "line-through";
-      //console.log(x);
-      display_list(selected_todo);
-      
-    }
-
-    var updateInput;
-
-    function edit_todo(toUpdateTodo){
-      x = "edit"
-
-           updateInput = prompt("Enter updated todo", "");
-          const index = listArray.indexOf(toUpdateTodo);
-          listArray[index] = updateInput;
-          display_list(updateInput);
-    }
-
-
-      function display_list(selected_todo){
-       
-    
-        var newList = document.createElement("li");
-        newList.id = selected_todo;
-        newList.className = "item";
-        newList.innerHTML = `
-        <label onclick="strike_todo('${selected_todo}')" class="item__checkbox item__checkbox--3">
-                <input type="checkbox"><i class="fas fa-check"></i>
-              </label>
-              <span id="${i}" onclick="edit_todo('${selected_todo}')">${selected_todo}</span>
-              <button onclick="delete_todo('${selected_todo}')" class="item__delete"><i class="fas fa-trash-alt"></i></button>
-              `;
-       
-        if(x=="add"){
-          
-          document.getElementById("list").append(newList);
-          console.log(i);
-          i++;
-        }
-        else if(x=="delete"){
-       
-          document.getElementById(selected_todo).remove(newList);
-          i--;
-        }
-        else if(x=="strike"){
-        
-          document.getElementById(selected_todo).style.textDecoration = "line-through";
-        }
-        else if(x=="edit"){
-      var y = listArray.indexOf(updateInput) + 1;
-     document.getElementById(y).innerHTML = updateInput;
-      console.log(updateInput);
-     
-        }
-
-
-     */
-
-        /*
-        for(var i=0; i<listArray.length; i++){
-          
-          listItems += `
-          <li class="item" id="${listArray[i]}">
-              <label onclick="strike_todo('${i}')" class="item__checkbox item__checkbox--3">
-                <input type="checkbox"><i class="fas fa-check"></i>
-              </label>
-              <span onclick="edit_todo('${listArray[i]}')">${listArray[i]}</span>
-              <button onclick="delete_todo('${listArray[i]}')" class="item__delete"><i class="fas fa-trash-alt"></i></button>
-          </li>
-          `
-        }
-
-      document.getElementById("list").innerHTML = listItems;
-      } */
