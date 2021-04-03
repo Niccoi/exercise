@@ -242,7 +242,7 @@ controller = {
 	
 	completeItem: function(item) {
     var x=0;
-    var index
+    
     console.log(item)
 		while(x<todoList.length){
       for(i=0; i<todoList[x].task.length; i++){
@@ -256,10 +256,19 @@ controller = {
 		todoview.render()
 	},
 
-	deleteItem: function(item_index) {
-   
-		todoItems.todoList.splice(item_index, 1)
-		todoview.render()
+	deleteItem: function(item) {
+    var x=0;
+    var index;
+    console.log(item)
+		while(x<todoList.length){
+      for(i=0; i<todoList[x].task.length; i++){
+        if(todoList[x].task[i].text == item){
+          todoList[x].task.splice(i,1);
+        }
+      }
+   x++;
+   }
+	  todoview.render()
 	},
 	editItem: function(item_index){
 		if(todoItems.todoList[item_index].completed == false){
