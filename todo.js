@@ -66,7 +66,25 @@ counter = 0;
 				});
 
 				// Append all our elements and add to DOM
-
+    selectList = $("<select>");
+    selectList.attr("id",newId);
+    selectList.append($("<option>").text(""));
+    for(y=0;y<todoList.length;y++){
+      optionList = $("<option>")
+      optionList.attr("value",todoList[y].name);
+      optionList.attr("id",newId)
+      optionList.text(todoList[y].name);
+      selectList.append(optionList);
+      var id;
+      selectList.click(function(e){
+        id = e.target.getAttribute("id")
+      })
+      selectList.change(function(){
+        selected = this.value;
+        controller.transferToOther(selected,id);
+      })
+    }
+    
 
                 checkBox.append(checkBoxIcon);
                 checkBoxLabel.append(checkBox);
@@ -76,6 +94,7 @@ counter = 0;
               // item.appendChild(checkBoxIcon);
                 item.append(span);
                 item.append(dltButton);
+                item.append(selectList);
                 list.append(item);  
 			}
 
@@ -189,6 +208,7 @@ column = {
     }
   },
   renderColumn: function(newColumnName){
+    todoview.render();
     wrapper = $("<div>");
     wrapper.attr("class","app");
   //  wrapper.attr("id",newColumnName);
@@ -206,6 +226,7 @@ column = {
     view.append(wrapper);
     columnCounter++;
 
+  
     columnAddbutton.on("click", function(e){
       newId = e.target.getAttribute("id");
       task = prompt("Enter new task");
@@ -255,6 +276,34 @@ controller = {
 		
 		todoview.render()
 	},
+  transferToOther: function(selected,newId){
+    todoview.render();
+    console.log(selected) //name
+    console.log(newId) //text
+    var taskCompleted ;
+    x=0;
+    //delete from old list
+    while(x<todoList.length){
+      for(i=0; i<todoList[x].task.length; i++){
+        if(todoList[x].task[i].text == newId){
+          taskCompleted = todoList[x].task[i].completed
+          todoList[x].task.splice(i,1);
+        }
+      }
+      x++;
+    }
+    y=0;
+    //add to new list
+    while(y<todoList.length){
+      listItem = { text: newId, completed: taskCompleted }
+      if(todoList[y].name == selected){
+        todoList[y].task.push(listItem);
+      }
+      
+    y++;
+}
+    todoview.render();
+  },
 
 	deleteItem: function(item) {
     var x=0;
@@ -290,7 +339,7 @@ controller = {
 
 showListOptions = {
   showAll: function(){
-    todoview.render(todoItems.todoList);
+    todoview.render();
   },
   showCompleted: function(){
     completeTodo = []

@@ -51,6 +51,15 @@ body {
     max-width: 50px;
   }
 }
+li {
+  list-style: none;
+  position: relative;
+  padding: 3px 0 2px 25px;
+  list-style-type: none;
+  margin-left: 0;
+  padding-right: 0;
+}
+
 
 .nav {
   display: flex;
