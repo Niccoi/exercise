@@ -209,6 +209,8 @@ column = {
   },
   renderColumn: function(newColumnName){
     todoview.render();
+
+    
     wrapper = $("<div>");
     wrapper.attr("class","app");
   //  wrapper.attr("id",newColumnName);
